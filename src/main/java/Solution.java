@@ -1,52 +1,23 @@
-public class Solution {
-  public String longestPalindrome(String s) {
-    int mid = s.length() / 2;
-    String odd = "";
-    String even = "";
-    String longest = exp(s, mid - 1, mid);
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-    for (int i = mid; i < s.length() - 1; i++) {
-      odd = exp(s, i - 1, i + 1);
-      even = exp(s, i, i + 1);
+class Solution {
+  public List<List<Integer>> threeSum(int[] nums) {
+    Map<Integer, ArrayList<List<Integer>>> m = new HashMap<>();
 
-      if (odd.length() > longest.length()) {
-        longest = odd;
-      }
-      if (even.length() > longest.length()) {
-        longest = even;
-      }
-      if (longest.length() > i - s.length() * 2 + 1) {
-        break;
+    Arrays.sort(nums);
+    for (int i = 0; i < nums.length && nums[i] <= 0; i++) {
+      for (int j = i + 1; j < nums.length && nums[i] <= 0; j++) {
+        ArrayList<List<Integer>> entry = m.getOrDefault(nums[i] + nums[j], new ArrayList<>());
+        List<Integer> t = new ArrayList<>();
+        t.add(nums[i]);
+        t.add(nums[j]);
+
+        m.put(nums[i] + nums[j], entry.add());
       }
     }
-    for (int i = mid - 1; i > 0; i--) {
-      odd = exp(s, i - 1, i + 1);
-      even = exp(s, i - 1, i);
-
-      if (odd.length() > longest.length()) {
-        longest = odd;
-      }
-      if (even.length() > longest.length()) {
-        longest = even;
-      }
-      if (longest.length() > i * 2 + 1) {
-        break;
-      }
-    }
-    return longest;
-  }
-
-  private String exp(String s, int l, int r) {
-    while (r <= s.length() && l >= 0 && s.charAt(l) == s.charAt(r)) {
-      r += 1;
-      l -= 1;
-    }
-    return s.substring(l + 1, r);
-  }
-
-  public static void main(String[] args) {
-    Solution solution = new Solution();
-    String result = solution.longestPalindrome("xaabacxcabaaxcabaax");
-    System.out.println(result);
   }
 }
