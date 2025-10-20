@@ -5,19 +5,33 @@ import java.util.List;
 import java.util.Map;
 
 class Solution {
-  public List<List<Integer>> threeSum(int[] nums) {
-    Map<Integer, ArrayList<List<Integer>>> m = new HashMap<>();
+  public List<List<String>> groupAnagrams(String[] strs) {
+    Map<String, List<Integer>> m = new HashMap<>();
 
-    Arrays.sort(nums);
-    for (int i = 0; i < nums.length && nums[i] <= 0; i++) {
-      for (int j = i + 1; j < nums.length && nums[i] <= 0; j++) {
-        ArrayList<List<Integer>> entry = m.getOrDefault(nums[i] + nums[j], new ArrayList<>());
-        List<Integer> t = new ArrayList<>();
-        t.add(nums[i]);
-        t.add(nums[j]);
-
-        m.put(nums[i] + nums[j], entry.add());
+    int i = 0;
+    for (String str : strs) {
+      char[] s = str.toCharArray();
+      Arrays.sort(s);
+      if (m.containsKey(new String(s))) {
+        List<Integer> l = m.get(new String(s));
+        l.add(i);
+        m.put(new String(s), l);
+      } else {
+        List<Integer> l = new ArrayList<>();
+        l.add(i);
+        m.put(new String(s), l);
       }
+      i++;
     }
+
+    List<List<String>> result = new ArrayList<>();
+    for (List<Integer> entry : m.values()) {
+      List<String> fl = new ArrayList<>();
+      for (Integer x : entry) {
+        fl.add(strs[x]);
+      }
+      result.add(fl);
+    }
+    return result;
   }
 }
